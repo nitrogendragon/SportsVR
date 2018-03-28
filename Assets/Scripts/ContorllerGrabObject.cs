@@ -133,31 +133,11 @@ public class ContorllerGrabObject : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate () {
         // 1
-        if (Controller.GetHairTriggerDown() && inhand ==false )
+        if (Controller.GetHairTriggerDown() && inhand ==false && collidingObject.CompareTag("replaceHand"))
         {
-            if (collidingObject)
-            {
                 GrabLockedObject();
-            }
         }
-        if (Controller.GetHairTriggerDown() && throwableinhand == false)
-        {
-            if (collidingObject)
-            {
-                GrabThrowableObject();
-            }
-        }
-
-        // 2
-        if (Controller.GetHairTriggerUp() && throwableinhand ==true )
-        {
-            if (objectInHand)
-            {
-                ReleaseThrowableObject();
-                throwableinhand = false;
-            }
-        }
-        if (Controller.GetHairTriggerDown() && inhand == true)
+        else if (Controller.GetHairTriggerDown() && inhand == true)
         {
             if (objectInHand)
             {
@@ -165,5 +145,30 @@ public class ContorllerGrabObject : MonoBehaviour {
                 inhand = false;
             }
         }
+        else if (Controller.GetHairTriggerDown() && throwableinhand == false && !collidingObject.CompareTag("replaceHand"))
+        {
+                GrabThrowableObject();
+        }
+
+        // 2
+        if(Controller.GetHairTriggerUp() && throwableinhand == true && inhand == true)
+        {
+            if (objectInHand)
+            {
+                ReleaseThrowableObject();
+                throwableinhand = false;
+                inhand = false;
+            }
+        }
+        else if (Controller.GetHairTriggerUp() && throwableinhand ==true)
+        {
+            if (objectInHand)
+            {
+                ReleaseThrowableObject();
+                throwableinhand = false;
+            }
+        }
+        
+
     }
 }
