@@ -59,16 +59,26 @@ public class ContorllerGrabObject : MonoBehaviour {
 
     private void GrabLockedObject()
     {
-        if (collidingObject.CompareTag("replaceHand"))
-        {
-            objectInHand = collidingObject;
-            collidingObject = null;
-            objectInHand.transform.rotation = trackedObj.transform.rotation;
-            objectInHand.transform.position = new Vector3(trackedObj.transform.position.x, trackedObj.transform.position.y, trackedObj.transform.position.z);
-            inhand = true;
-        }
+        
+            if (collidingObject == GameObject.Find("baseballbat"))
+            {
+                objectInHand = collidingObject;
+                collidingObject = null;
+                //objectInHand.transform.rotation = trackedObj.transform.rotation;
+                //objectInHand.transform.position = new Vector3(trackedObj.transform.position.x, trackedObj.transform.position.y, trackedObj.transform.position.z+.5f);
+                inhand = true;
+            }
+        
+        
+                else if (collidingObject == GameObject.Find("prototypeputter"))
+                {
+                    objectInHand = collidingObject;
+                    collidingObject = null;
+                    //objectInHand.transform.rotation = new Quaternion(trackedObj.transform.rotation.x, trackedObj.transform.rotation.y, trackedObj.transform.rotation.z,1);
+                   // objectInHand.transform.position = new Vector3(trackedObj.transform.position.x, trackedObj.transform.position.y, trackedObj.transform.position.z);
+                    inhand = true;
+                }
 
-       
         // 2
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
