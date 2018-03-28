@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ContorllerGrabObject : MonoBehaviour {
-
+    bool inhand = false;
+    bool throwableinhand = false;
     private SteamVR_TrackedObject trackedObj;
     // 1
     private GameObject collidingObject;
@@ -56,11 +57,31 @@ public class ContorllerGrabObject : MonoBehaviour {
     }
 
 
-    private void GrabObject()
+    private void GrabLockedObject()
     {
-        // 1
-        objectInHand = collidingObject;
-        collidingObject = null;
+        if (collidingObject.CompareTag("replaceHand"))
+        {
+            objectInHand = collidingObject;
+            collidingObject = null;
+            objectInHand.transform.rotation = trackedObj.transform.rotation;
+            objectInHand.transform.position = new Vector3(trackedObj.transform.position.x, trackedObj.transform.position.y, trackedObj.transform.position.z);
+            inhand = true;
+        }
+
+       
+        // 2
+        var joint = AddFixedJoint();
+        joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
+    }
+
+    private void GrabThrowableObject()
+    {
+        if (collidingObject)
+        {
+            objectInHand = collidingObject;
+            collidingObject = null;
+            throwableinhand = true;
+        }
         // 2
         var joint = AddFixedJoint();
         joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
@@ -70,12 +91,12 @@ public class ContorllerGrabObject : MonoBehaviour {
     private FixedJoint AddFixedJoint()
     {
         FixedJoint fx = gameObject.AddComponent<FixedJoint>();
-        fx.breakForce = 20000;
-        fx.breakTorque = 20000;
+        fx.breakForce = 200000;
+        fx.breakTorque = 200000;
         return fx;
     }
 
-    private void ReleaseObject()
+    private void ReleaseThrowableObject()
     {
         // 1
         if (GetComponent<FixedJoint>())
@@ -90,26 +111,58 @@ public class ContorllerGrabObject : MonoBehaviour {
         // 4
         objectInHand = null;
     }
+    private void ReleaseLockedObject()
+    {
+        // 1
+        if (GetComponent<FixedJoint>())
+        {
+            // 2
+            GetComponent<FixedJoint>().connectedBody = null;
+            Destroy(GetComponent<FixedJoint>());
+            // 3
+            objectInHand.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
+            objectInHand.GetComponent<Rigidbody>().angularVelocity = new Vector3(0,0,0);
+            objectInHand.GetComponent<Rigidbody>().rotation = new Quaternion(0, 0, 0, 1);
+        }
+        // 4
+        objectInHand = null;
+    }
 
 
 
     // Update is called once per frame
-    void Update () {
+    void FixedUpdate () {
         // 1
-        if (Controller.GetHairTriggerDown())
+        if (Controller.GetHairTriggerDown() && inhand ==false )
         {
             if (collidingObject)
             {
-                GrabObject();
+                GrabLockedObject();
+            }
+        }
+        if (Controller.GetHairTriggerDown() && throwableinhand == false)
+        {
+            if (collidingObject)
+            {
+                GrabThrowableObject();
             }
         }
 
         // 2
-        if (Controller.GetHairTriggerUp())
+        if (Controller.GetHairTriggerUp() && throwableinhand ==true )
         {
             if (objectInHand)
             {
-                ReleaseObject();
+                ReleaseThrowableObject();
+                throwableinhand = false;
+            }
+        }
+        if (Controller.GetHairTriggerDown() && inhand == true)
+        {
+            if (objectInHand)
+            {
+                ReleaseLockedObject();
+                inhand = false;
             }
         }
     }
