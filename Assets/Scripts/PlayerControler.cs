@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class PlayerControler : MonoBehaviour {
-
+    
 	public float speed;
 	public Text countText;
     public Text timertext;
@@ -21,7 +21,7 @@ public class PlayerControler : MonoBehaviour {
     GameObject cake;
     bool timerstop = false;
 
-	void Start()
+	void Awake()
 	{
         player = GameObject.Find("Cube");
         startingpoint = new Vector3(0,5,0);

@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContorllerGrabObject : MonoBehaviour {
+public class basketballcontrollerscript : MonoBehaviour
+{
+    public GameObject basketballstartbutton;
+    BasketballGame basketballscript;
     
-    bool inhand = false;
     bool throwableinhand = false;
     private SteamVR_TrackedObject trackedObj;
     // 1
@@ -19,8 +21,9 @@ public class ContorllerGrabObject : MonoBehaviour {
 
     void Awake()
     {
-        
+        basketballscript = basketballstartbutton.GetComponent<BasketballGame>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
+        print("we found the stuff");
 
     }
 
@@ -59,31 +62,9 @@ public class ContorllerGrabObject : MonoBehaviour {
     }
 
 
-    private void GrabLockedObject()
-    {
-        
-            if (collidingObject == GameObject.Find("baseballbat"))
-            {
-                objectInHand = collidingObject;
-                collidingObject = null;
-                
-                inhand = true;
-            }
-        
-        
-                else if (collidingObject == GameObject.Find("prototypeputter"))
-                {
-                    objectInHand = collidingObject;
-                    collidingObject = null;
-                   
-                   
-                    inhand = true;
-                }
 
-        // 2
-        var joint = AddFixedJoint();
-        joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
-    }
+
+       
 
     private void GrabThrowableObject()
     {
@@ -122,65 +103,46 @@ public class ContorllerGrabObject : MonoBehaviour {
         // 4
         objectInHand = null;
     }
-    private void ReleaseLockedObject()
-    {
-        // 1
-        if (GetComponent<FixedJoint>())
-        {
-            // 2
-            GetComponent<FixedJoint>().connectedBody = null;
-            Destroy(GetComponent<FixedJoint>());
-            // 3
-            objectInHand.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
-            objectInHand.GetComponent<Rigidbody>().angularVelocity = new Vector3(0,0,0);
-            objectInHand.GetComponent<Rigidbody>().rotation = new Quaternion(0, 0, 0, 1);
-        }
-        // 4
-        objectInHand = null;
-    }
+   
 
 
 
     // Update is called once per frame
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
         // 1
-       
-        if (Controller.GetHairTriggerDown() && inhand ==false && collidingObject.CompareTag("replaceHand"))
+        if (Controller.GetHairTriggerDown() && basketballscript.startcd == false && !collidingObject)
         {
-                GrabLockedObject();
+            print("it's false");
         }
-        else if (Controller.GetHairTriggerDown() && inhand == true)
+        else if (Controller.GetHairTriggerDown()  && collidingObject.CompareTag("startbasketball") && basketballscript.startcd ==false)
         {
-            if (objectInHand)
-            {
-                ReleaseLockedObject();
-                inhand = false;
-            }
+            print("hit button");
+            basketballscript.countdown = 45;
+            basketballscript.score = 0;
+            basketballscript.startcd = true;
+            
+            basketballscript.dropblocker();
         }
-        else if (Controller.GetHairTriggerDown() && throwableinhand == false && !collidingObject.CompareTag("replaceHand"))
+        
+        if (Controller.GetHairTriggerDown() && throwableinhand == false && collidingObject && !collidingObject.CompareTag("replaceHand"))
         {
-                GrabThrowableObject();
+            GrabThrowableObject();
         }
 
         // 2
-        if(Controller.GetHairTriggerUp() && throwableinhand == true && inhand == true)
-        {
-            if (objectInHand)
-            {
-                ReleaseThrowableObject();
-                throwableinhand = false;
-                inhand = false;
-            }
-        }
-        else if (Controller.GetHairTriggerUp() && throwableinhand ==true)
-        {
-            if (objectInHand)
-            {
-                ReleaseThrowableObject();
-                throwableinhand = false;
-            }
-        }
         
+       
+        else if (Controller.GetHairTriggerUp() && throwableinhand == true)
+        {
+            print("last resort");
+            if (objectInHand)
+            {
+                ReleaseThrowableObject();
+                throwableinhand = false;
+            }
+        }
+
 
     }
 }
