@@ -8,6 +8,7 @@ TagManager:
   - FxTemporaire
   - replaceHand
   - startbasketball
+  - scoreupdater
   layers:
   - Default
   - TransparentFX

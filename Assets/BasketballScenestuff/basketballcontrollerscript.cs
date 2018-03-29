@@ -6,7 +6,7 @@ public class basketballcontrollerscript : MonoBehaviour
 {
     public GameObject basketballstartbutton;
     BasketballGame basketballscript;
-    
+    public GameObject objectposition;
     bool throwableinhand = false;
     private SteamVR_TrackedObject trackedObj;
     // 1
@@ -42,6 +42,7 @@ public class basketballcontrollerscript : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
         SetCollidingObject(other);
+
     }
 
     // 2
@@ -73,6 +74,9 @@ public class basketballcontrollerscript : MonoBehaviour
             objectInHand = collidingObject;
             collidingObject = null;
             throwableinhand = true;
+           
+                objectInHand.transform.position = new Vector3(objectposition.transform.position.x, objectposition.transform.position.y, objectposition.transform.position.z);
+            
         }
         // 2
         var joint = AddFixedJoint();
@@ -115,7 +119,7 @@ public class basketballcontrollerscript : MonoBehaviour
         {
             print("it's false");
         }
-        else if (Controller.GetHairTriggerDown()  && collidingObject.CompareTag("startbasketball") && basketballscript.startcd ==false)
+        else if (Controller.GetHairTriggerDown()  && collidingObject && collidingObject.CompareTag("startbasketball") && basketballscript.startcd ==false)
         {
             print("hit button");
             basketballscript.countdown = 45;
@@ -125,9 +129,14 @@ public class basketballcontrollerscript : MonoBehaviour
             basketballscript.dropblocker();
         }
         
-        if (Controller.GetHairTriggerDown() && throwableinhand == false && collidingObject && !collidingObject.CompareTag("replaceHand"))
+        if (Controller.GetHairTriggerDown() && throwableinhand == false && collidingObject.CompareTag("replaceHand" ))
         {
             GrabThrowableObject();
+        }
+        else if(Controller.GetHairTriggerDown() && throwableinhand == true)
+        {
+            ReleaseThrowableObject();
+            throwableinhand = false;
         }
 
         // 2
