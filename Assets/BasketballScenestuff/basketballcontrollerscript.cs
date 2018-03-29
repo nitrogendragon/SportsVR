@@ -49,6 +49,10 @@ public class basketballcontrollerscript : MonoBehaviour
     public void OnTriggerStay(Collider other)
     {
         SetCollidingObject(other);
+        if (other.CompareTag("replaceHand"))
+        {
+            SteamVR_Controller.Input((int)trackedObj.index).TriggerHapticPulse(500);
+        }
     }
 
     // 3
@@ -142,7 +146,7 @@ public class basketballcontrollerscript : MonoBehaviour
         // 2
         
        
-        else if (Controller.GetHairTriggerUp() && throwableinhand == true)
+        if (Controller.GetHairTriggerUp() && throwableinhand == true)
         {
             print("last resort");
             if (objectInHand)
