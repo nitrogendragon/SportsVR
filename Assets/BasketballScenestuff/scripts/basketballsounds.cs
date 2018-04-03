@@ -8,33 +8,35 @@ public class basketballsounds : MonoBehaviour
     public GameObject basketballmodel;
     public GameObject scoreupdater;
     public GameObject backboard;
-    public AudioClip hitground;
-    public AudioClip scored;
-    public AudioClip hitbackboard;
-    AudioSource a1;
-    AudioSource a2;
-    AudioSource a3;
+    public AudioSource hitground;
+    public AudioSource scored;
+    public AudioSource hitbackboard;
+    public AudioClip hitground1;
+    public AudioClip scored1;
+    public AudioClip hitbackboard1;
+    
 
     // Use this for initialization
     void Awake()
     {
-        a1.clip = hitground;
-        a2.clip = scored;
-        a3.clip = hitbackboard;
+       
     }
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject == ground || basketballmodel)
         {
-            a1.Play();
+           // hitground.Play();
+            AudioSource.PlayClipAtPoint(hitground1, gameObject.transform.position);
         }
         else if (other.gameObject == scoreupdater)
         {
-            a2.Play();
+           // scored.Play();
+            AudioSource.PlayClipAtPoint(scored1, gameObject.transform.position);
         }
         else if (other.gameObject == backboard)
         {
-            a3.Play();
+           // hitbackboard.Play();
+            AudioSource.PlayClipAtPoint(hitbackboard1, gameObject.transform.position);
         }
     }
   
