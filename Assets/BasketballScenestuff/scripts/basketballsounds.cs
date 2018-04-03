@@ -8,9 +8,7 @@ public class basketballsounds : MonoBehaviour
     public GameObject basketballmodel;
     public GameObject scoreupdater;
     public GameObject backboard;
-    public AudioSource hitground;
-    public AudioSource scored;
-    public AudioSource hitbackboard;
+   
     public AudioClip hitground1;
     public AudioClip scored1;
     public AudioClip hitbackboard1;
@@ -28,16 +26,25 @@ public class basketballsounds : MonoBehaviour
            // hitground.Play();
             AudioSource.PlayClipAtPoint(hitground1, gameObject.transform.position);
         }
-        else if (other.gameObject == scoreupdater)
-        {
-           // scored.Play();
-            AudioSource.PlayClipAtPoint(scored1, gameObject.transform.position);
-        }
-        else if (other.gameObject == backboard)
+        
+        if (other.gameObject == backboard)
         {
            // hitbackboard.Play();
-            AudioSource.PlayClipAtPoint(hitbackboard1, gameObject.transform.position);
+            AudioSource.PlayClipAtPoint(hitground1, gameObject.transform.position);
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(hitground1, gameObject.transform.position);
         }
     }
-  
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject == scoreupdater)
+        {
+            // scored.Play();
+            AudioSource.PlayClipAtPoint(scored1, gameObject.transform.position);
+        }
+    }
+
 }
