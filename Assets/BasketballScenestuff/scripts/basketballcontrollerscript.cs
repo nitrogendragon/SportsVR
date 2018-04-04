@@ -49,7 +49,7 @@ public class basketballcontrollerscript : MonoBehaviour
     public void OnTriggerStay(Collider other)
     {
         SetCollidingObject(other);
-        if (other.CompareTag("replaceHand"))
+        if (other.CompareTag("replaceHand") && objectInHand==false)
         {
             SteamVR_Controller.Input((int)trackedObj.index).TriggerHapticPulse(500);
         }
@@ -105,8 +105,9 @@ public class basketballcontrollerscript : MonoBehaviour
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
             // 3
-            objectInHand.GetComponent<Rigidbody>().velocity = Controller.velocity;
-            objectInHand.GetComponent<Rigidbody>().angularVelocity = Controller.angularVelocity;
+            objectInHand.GetComponent<Rigidbody>().velocity = Controller.velocity *1.3f;
+            objectInHand.GetComponent<Rigidbody>().angularVelocity = Controller.angularVelocity*-1;
+            
         }
         // 4
         objectInHand = null;
@@ -119,11 +120,8 @@ public class basketballcontrollerscript : MonoBehaviour
     void FixedUpdate()
     {
         // 1
-        if (Controller.GetHairTriggerDown() && basketballscript.startcd == false && !collidingObject)
-        {
-            print("it's false");
-        }
-        else if (Controller.GetHairTriggerDown()  && collidingObject && collidingObject.CompareTag("startbasketball") && basketballscript.startcd ==false)
+       
+         if (Controller.GetHairTriggerDown()  && collidingObject && collidingObject.CompareTag("startbasketball") && basketballscript.startcd ==false)
         {
             print("hit button");
             basketballscript.countdown = 45;
@@ -133,14 +131,16 @@ public class basketballcontrollerscript : MonoBehaviour
             basketballscript.dropblocker();
         }
         
-        if (Controller.GetHairTriggerDown() && throwableinhand == false && collidingObject.CompareTag("replaceHand" ))
+        if (Controller.GetHairTriggerDown() && throwableinhand == false && collidingObject.CompareTag("replaceHand"))
         {
+            
             GrabThrowableObject();
         }
         else if(Controller.GetHairTriggerDown() && throwableinhand == true)
         {
-            ReleaseThrowableObject();
             throwableinhand = false;
+            ReleaseThrowableObject();
+            
         }
 
         // 2
@@ -148,14 +148,12 @@ public class basketballcontrollerscript : MonoBehaviour
        
         if (Controller.GetHairTriggerUp() && throwableinhand == true)
         {
-            print("last resort");
-            if (objectInHand)
-            {
+            
                 ReleaseThrowableObject();
                 throwableinhand = false;
-            }
+            
         }
 
-
+    
     }
 }

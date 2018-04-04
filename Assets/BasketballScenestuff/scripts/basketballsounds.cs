@@ -15,10 +15,7 @@ public class basketballsounds : MonoBehaviour
     
 
     // Use this for initialization
-    void Awake()
-    {
-       
-    }
+   
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject == ground || basketballmodel)
@@ -30,7 +27,7 @@ public class basketballsounds : MonoBehaviour
         if (other.gameObject == backboard)
         {
            // hitbackboard.Play();
-            AudioSource.PlayClipAtPoint(hitground1, gameObject.transform.position);
+            AudioSource.PlayClipAtPoint(hitbackboard1, gameObject.transform.position);
         }
         else
         {
