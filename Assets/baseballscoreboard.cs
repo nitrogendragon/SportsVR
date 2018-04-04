@@ -27,7 +27,22 @@ public class baseballscoreboard : MonoBehaviour {
 
     public void updatescoreboard()
     {
+        if (i == 11)
+        {
+            i = 0;
+        }
+        if (i == 0)
+        {
+            
 
+                for (i = 0; i < 11; i++)
+                {
+                    texts[i].text = "0";
+                    print(texts[i].text);
+                }
+                i = 0;
+        }
+        
        
         
             texts[i].text = distancetraveled.ToString();
@@ -62,21 +77,7 @@ public class baseballscoreboard : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (st.count==10 && resetcount == false)
-        {
-            resetcount = true;
-            print("11");
-            
-            for (i = 0; i < 11; i++)
-            {
-                texts[i].text = "0";
-                print(texts[i].text);
-            }
-            i = 0;
-        }
-        if (st.count < 10)
-        {
-            resetcount = false;
-        }
+        
+        
     }
 }

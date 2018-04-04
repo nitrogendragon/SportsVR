@@ -14,7 +14,7 @@ public class skeletonthrow : MonoBehaviour {
         void Awake()
         {
         count = 0;
-        throwagain = true;
+        throwagain = false;
             anim = GetComponent<Animation>();
             foreach (AnimationState state in anim)
             {
