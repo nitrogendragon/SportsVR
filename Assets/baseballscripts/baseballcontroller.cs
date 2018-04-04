@@ -173,9 +173,10 @@ public class baseballcontroller : MonoBehaviour
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
             // 3
-            objectInHand.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-            objectInHand.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
-            objectInHand.GetComponent<Rigidbody>().rotation = new Quaternion(0, 0, 0, 1);
+            //objectInHand.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            //objectInHand.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0);
+            //objectInHand.GetComponent<Rigidbody>().rotation = new Quaternion(0, 0, 0, 1);
+            
         }
         // 4
         objectInHand = null;
