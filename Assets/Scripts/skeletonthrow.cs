@@ -56,7 +56,7 @@ public class skeletonthrow : MonoBehaviour {
             
             rb = instantiatedball.GetComponent<Rigidbody>();
             instantiatedball.SetActive(true);
-            rb.AddForce(new Vector3(-3000,330,0));
+            rb.AddForce(new Vector3(-3000,315,0));
             
         }
 
