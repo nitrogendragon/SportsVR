@@ -31,16 +31,20 @@ public class skeletonthrow : MonoBehaviour {
          
             if(count<=10 && throwagain == true)
         {
-            
-            anim.Play();
-            threw = true;
-            throwagain = false;
+            throwdelay += Time.deltaTime;
+            if (throwdelay >= .6f)
+            {
+                throwdelay = 0;
+                anim.Play();
+                threw = true;
+                throwagain = false;
+            }
 
         }
-        if (threw == true && throwdelay<=.8) { 
+        if (threw == true && throwdelay<=.7) { 
         throwdelay += Time.deltaTime;
         }
-        if (throwdelay >= .8 && threw == true)
+        if (throwdelay >= .7 && threw == true)
         {
             throwdelay = 0;
             threw = false;
@@ -48,11 +52,11 @@ public class skeletonthrow : MonoBehaviour {
             {
                 Destroy(instantiatedball);
             }
-            instantiatedball = Instantiate(baseball, new Vector3(.3f,1,0), new Quaternion(0,0,0,1));
+            instantiatedball = Instantiate(baseball, new Vector3(.6f,1f,.3f), new Quaternion(0,0,0,1));
             
             rb = instantiatedball.GetComponent<Rigidbody>();
             instantiatedball.SetActive(true);
-            rb.AddForce(new Vector3(-3000,310,0));
+            rb.AddForce(new Vector3(-3000,330,0));
             
         }
 
