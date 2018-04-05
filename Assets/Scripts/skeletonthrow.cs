@@ -48,7 +48,7 @@ public class skeletonthrow : MonoBehaviour {
             {
                 Destroy(instantiatedball);
             }
-            instantiatedball = Instantiate(baseball, new Vector3(-1,1,0), new Quaternion(0,0,0,1));
+            instantiatedball = Instantiate(baseball, new Vector3(.3f,1,0), new Quaternion(0,0,0,1));
             
             rb = instantiatedball.GetComponent<Rigidbody>();
             instantiatedball.SetActive(true);

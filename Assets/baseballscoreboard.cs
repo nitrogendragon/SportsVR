@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public class baseballscoreboard : MonoBehaviour {
-   
+    int homerun;
+    int grandslam;
+    int single;
+    int foul;
+    int doubler;
+    int triple;
     public GameObject bball;
     ballcontact bc;
     bool resetcount;
@@ -19,6 +24,12 @@ public class baseballscoreboard : MonoBehaviour {
     public Text d9;
     public Text d10;
     public Text d11;
+    public Text hrtext;
+    public Text gstext;
+    public Text singletext;
+    public Text doublertext;
+    public Text tripletext;
+    public Text foultext;
     Text[] texts;
     int i = 0;
     public int distancetraveled;
@@ -33,19 +44,58 @@ public class baseballscoreboard : MonoBehaviour {
         }
         if (i == 0)
         {
-            
-
-                for (i = 0; i < 11; i++)
+            homerun = 0;
+            single = 0;
+            doubler = 0;
+            triple = 0;
+            grandslam = 0;
+            foul = 0;
+            foultext.text = foul.ToString();
+            singletext.text = single.ToString();
+            doublertext.text = doubler.ToString();
+            tripletext.text = triple.ToString();
+            hrtext.text = homerun.ToString();
+            gstext.text = grandslam.ToString();
+            for (i = 0; i < 11; i++)
                 {
                     texts[i].text = "0";
                     print(texts[i].text);
                 }
                 i = 0;
         }
-        
-       
-        
-            texts[i].text = distancetraveled.ToString();
+        if(distancetraveled== -1)
+        {
+            foul++;
+            foultext.text = foul.ToString();
+        }
+        else if (distancetraveled < 20 && distancetraveled>=0)
+        {
+            single++;
+            singletext.text = single.ToString();
+        }
+        else if(distancetraveled>20 && distancetraveled <= 60)
+        {
+            doubler++;
+            doublertext.text = doubler.ToString();
+        }
+        else if (distancetraveled > 60 && distancetraveled <= 150)
+        {
+            triple++;
+            tripletext.text = triple.ToString();
+        }
+        else if (distancetraveled > 150 && distancetraveled <= 220)
+        {
+            homerun++;
+            hrtext.text = homerun.ToString();
+        }
+        else if (distancetraveled > 220)
+        {
+            grandslam++;
+            gstext.text = grandslam.ToString();
+        }
+
+
+        texts[i].text = distancetraveled.ToString();
         
             i++;
         

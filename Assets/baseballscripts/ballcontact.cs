@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ballcontact : MonoBehaviour {
     public GameObject ground;
+    public GameObject OB;
     public GameObject initialpoint;
     public GameObject skeleton;
     public GameObject scoreboard;
@@ -14,7 +15,25 @@ public class ballcontact : MonoBehaviour {
     
     private void OnCollisionEnter(Collision other)
     {
-        if(other.gameObject == ground)
+        if(other.gameObject == OB)
+        {
+            bsb.distancetraveled = -1;
+            bsb.updatescoreboard();
+            if (st.count == 10)
+            {
+                st.count = 0;
+                st.throwagain = false;
+
+            }
+            else
+            {
+
+                st.count += 1;
+                st.throwagain = true;
+            }
+            Destroy(gameObject);
+        }
+        else if(other.gameObject == ground)
         {
             distancetraveled = (int)Vector3.Distance(gameObject.transform.position, startspot);
             bsb.distancetraveled = distancetraveled;

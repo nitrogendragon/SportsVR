@@ -5,6 +5,215 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 public class baseballcontroller : MonoBehaviour
 {
+    bool nextcheck;
+    public GameObject scoreboard;
+    baseballscoreboard bsb;
+    bool batinhand = false;
+    public Transform headpos;
+    public GameObject batholder;
+    float timetilmenushows;
+    float timetilgamestart;
+    bool gamestarted = false;
+    bool startselected = false;
+    bool exitselected = false;
+    bool startmenutimer;
+    public GameObject baseballbat;
+    public GameObject begingame;
+    public GameObject exit;
+    public GameObject skeleton;
+    skeletonthrow st;
+    public GameObject startbox;
+    bool inhand = false;
+    bool throwableinhand = false;
+    private SteamVR_TrackedObject trackedObj;
+    // 1
+    private GameObject collidingObject;
+    // 2
+    private GameObject objectInHand;
+
+    private SteamVR_Controller.Device Controller
+    {
+        get { return SteamVR_Controller.Input((int)trackedObj.index); }
+    }
+
+    void Awake()
+    {
+        st = skeleton.GetComponent<skeletonthrow>();
+        trackedObj = GetComponent<SteamVR_TrackedObject>();
+        bsb = scoreboard.GetComponent<baseballscoreboard>();
+
+    }
+
+
+
+
+
+
+    // 1
+    public void OnTriggerEnter(Collider other)
+    {
+
+        if (other.gameObject == begingame)
+        {
+            begingame.GetComponent<Renderer>().material.color = Color.blue;
+            startselected = true;
+        }
+        if (other.gameObject == exit)
+        {
+            exit.GetComponent<Renderer>().material.color = Color.cyan;
+            exitselected = true;
+
+        }
+
+    }
+
+    // 2
+
+
+    // 3
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject == begingame)
+        {
+            begingame.GetComponent<Renderer>().material.color = Color.white;
+            startselected = false;
+
+
+        }
+        if (other.gameObject == exit)
+        {
+            exit.GetComponent<Renderer>().material.color = Color.white;
+            exitselected = false;
+        }
+        if (!collidingObject)
+        {
+            return;
+        }
+
+
+    }
+
+
+    private void GrabLockedObject()
+    {
+
+        baseballbat.SetActive(true);
+            baseballbat.transform.position = batholder.transform.position;
+            baseballbat.transform.rotation = batholder.transform.rotation;
+            objectInHand = baseballbat;
+            
+            inhand = true;
+
+            var joint = AddFixedJoint();
+            joint.connectedBody = objectInHand.GetComponent<Rigidbody>();
+        batinhand = false;
+    }
+
+
+
+    // 3
+    private FixedJoint AddFixedJoint()
+    {
+        FixedJoint fx = gameObject.AddComponent<FixedJoint>();
+        fx.breakForce = 200000;
+        fx.breakTorque = 200000;
+        return fx;
+    }
+
+
+
+    //starts the baseball game specifically the pitching animation
+    void startgame()
+    {
+        if (st.count == 0)
+        {
+            st.throwagain = true;
+        }
+    }
+    private void exitgame()
+    {
+        SceneManager.LoadScene("Basketball");
+    }
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+
+        if (st.count == 10)
+        {
+            nextcheck = true;
+        }
+            if (bsb.d11.text != "0" && nextcheck==true)
+            {
+            nextcheck = false;
+                startmenutimer = true;
+            }
+        
+        if (startmenutimer == true)
+        {
+            timetilmenushows += Time.deltaTime;
+        }
+        if (timetilmenushows >= 3)
+        {
+           
+            timetilmenushows = 0;
+            begingame.SetActive(true);
+            exit.SetActive(true);
+            startmenutimer = false;
+            baseballbat.SetActive(false);
+        }
+
+        
+        // 1
+        if (Controller.GetHairTriggerDown() && startselected == true)
+        {
+            begingame.GetComponent<Renderer>().material.color = Color.white;
+            begingame.SetActive(false);
+            exit.SetActive(false);
+            gamestarted = true;
+            startselected = false;
+            batinhand = true;
+        }
+        if (gamestarted == true)
+        {
+            baseballbat.SetActive(true);
+            timetilgamestart += Time.deltaTime;
+        }
+        if (timetilgamestart >= 3)
+        {
+            gamestarted = false;
+            startgame();
+            timetilgamestart = 0;
+        }
+
+        else if (Controller.GetHairTriggerDown() && exitselected == true)
+        {
+            exitselected = false;
+            exit.GetComponent<Renderer>().material.color = Color.white;
+            exitgame();
+
+
+        }
+
+        if (batinhand == true)
+        {
+            GrabLockedObject();
+        }
+
+
+
+
+
+    }
+}
+
+
+/**using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+public class baseballcontroller : MonoBehaviour
+{
     public Transform headpos;
     public GameObject batholder;
     float timetilmenushows;
@@ -283,4 +492,4 @@ public class baseballcontroller : MonoBehaviour
 
 
     }
-}
+}**/
