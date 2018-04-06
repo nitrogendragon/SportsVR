@@ -142,7 +142,7 @@ public class mainmenucontroller : MonoBehaviour
         }
         void loadminigolf()
         {
-            SceneManager.LoadScene("golftest");
+            SceneManager.LoadScene("workinggolf");
         }
         void loadhelp()
         {
