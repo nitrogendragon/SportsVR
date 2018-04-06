@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.SceneManagement;
 public class basketballcontrollerscript : MonoBehaviour
 {
+    public GameObject quitbutton;
     public GameObject basketballstartbutton;
     BasketballGame basketballscript;
     public GameObject objectposition;
     bool throwableinhand = false;
+    bool quitbuttonselected = false;
     private SteamVR_TrackedObject trackedObj;
     // 1
     private GameObject collidingObject;
@@ -41,15 +43,29 @@ public class basketballcontrollerscript : MonoBehaviour
     // 1
     public void OnTriggerEnter(Collider other)
     {
-        SetCollidingObject(other);
-
+        if (other.gameObject == quitbutton)
+        {
+            quitbutton.GetComponent<Renderer>().material.color = Color.blue;
+            quitbuttonselected = true;
+        }
+        else
+        {
+            SetCollidingObject(other);
+        }
     }
 
     // 2
     public void OnTriggerStay(Collider other)
     {
-        SetCollidingObject(other);
-        if (other.CompareTag("replaceHand") && objectInHand==false)
+        if (other.gameObject == quitbutton)
+        {
+            return;
+        }
+        else
+        {
+            SetCollidingObject(other);
+        }
+            if (other.CompareTag("replaceHand") && objectInHand==false)
         {
             SteamVR_Controller.Input((int)trackedObj.index).TriggerHapticPulse(500);
         }
@@ -58,12 +74,20 @@ public class basketballcontrollerscript : MonoBehaviour
     // 3
     public void OnTriggerExit(Collider other)
     {
+        if (other.gameObject == quitbutton)
+        {
+            quitbutton.GetComponent<Renderer>().material.color = Color.white;
+            quitbuttonselected = false;
+        }
+        else
+        {
+            collidingObject = null;
+        }
         if (!collidingObject)
         {
             return;
         }
-
-        collidingObject = null;
+        
     }
 
 
@@ -120,7 +144,18 @@ public class basketballcontrollerscript : MonoBehaviour
     void FixedUpdate()
     {
         // 1
-       
+        if (basketballscript.startcd == true)
+        {
+            quitbutton.SetActive(false);
+        }
+        else
+        {
+            quitbutton.SetActive(true);
+        }
+        if(Controller.GetHairTriggerDown() && quitbuttonselected == true)
+        {
+            SceneManager.LoadScene("Main Menu");
+        }
          if (Controller.GetHairTriggerDown()  && collidingObject && collidingObject.CompareTag("startbasketball") && basketballscript.startcd ==false)
         {
             print("hit button");

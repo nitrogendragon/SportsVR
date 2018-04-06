@@ -132,7 +132,7 @@ public class baseballcontroller : MonoBehaviour
     }
     private void exitgame()
     {
-        SceneManager.LoadScene("Basketball");
+        SceneManager.LoadScene("Main Menu");
     }
     // Update is called once per frame
     void FixedUpdate()

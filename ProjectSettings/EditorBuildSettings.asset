@@ -11,3 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Basketball.unity
     guid: 635368c6bfec5cf47aff2873b9002307
+  - enabled: 1
+    path: Assets/Scenes/golftest.unity
+    guid: 136436bd1d837ef41804bddbbe8ea510
+  - enabled: 1
+    path: Assets/Scenes/Main Menu.unity
+    guid: 756880e9746145846aadc06eed75e4ff
