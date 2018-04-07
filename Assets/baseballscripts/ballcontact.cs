@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class ballcontact : MonoBehaviour {
     public GameObject ground;
     public GameObject OB;
+    public GameObject PlayerBox;
     public GameObject initialpoint;
     public GameObject skeleton;
     public GameObject scoreboard;
@@ -15,6 +16,7 @@ public class ballcontact : MonoBehaviour {
     
     private void OnCollisionEnter(Collision other)
     {
+        
         if(other.gameObject == OB)
         {
             bsb.distancetraveled = -1;
@@ -51,6 +53,12 @@ public class ballcontact : MonoBehaviour {
                 st.count += 1;
                 st.throwagain = true;
             }
+            Destroy(gameObject);
+            
+        }
+        else if (other.gameObject == PlayerBox)
+        {
+            st.throwagain = true;
             Destroy(gameObject);
         }
     }

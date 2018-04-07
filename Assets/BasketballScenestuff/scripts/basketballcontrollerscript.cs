@@ -25,7 +25,7 @@ public class basketballcontrollerscript : MonoBehaviour
     {
         basketballscript = basketballstartbutton.GetComponent<BasketballGame>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
-        print("we found the stuff");
+      
 
     }
 
@@ -155,6 +155,10 @@ public class basketballcontrollerscript : MonoBehaviour
         if(Controller.GetHairTriggerDown() && quitbuttonselected == true)
         {
             SceneManager.LoadScene("Main Menu");
+        }
+        if(Controller.GetHairTriggerDown() && !collidingObject)
+        {
+            return;
         }
          if (Controller.GetHairTriggerDown()  && collidingObject && collidingObject.CompareTag("startbasketball") && basketballscript.startcd ==false)
         {

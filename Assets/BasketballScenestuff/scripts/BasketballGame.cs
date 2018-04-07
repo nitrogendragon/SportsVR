@@ -12,7 +12,7 @@ public class BasketballGame : MonoBehaviour {
     public GameObject basketball5;
     GameObject[] balls;
     Vector3[] ballpositions;
-    
+    public AudioClip gamemusic;
     Vector3 bb1pos;
     Vector3 bb2pos;
     Vector3 bb3pos;
@@ -130,6 +130,7 @@ public class BasketballGame : MonoBehaviour {
     public void dropblocker()
     {
         ballblocker.SetActive(false);
+        AudioSource.PlayClipAtPoint(gamemusic, GameObject.Find("basketballgamemodel").transform.position);
     }
     // Update is called once per frame
    

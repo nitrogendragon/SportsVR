@@ -32,7 +32,7 @@ public class skeletonthrow : MonoBehaviour {
             if(count<=10 && throwagain == true)
         {
             throwdelay += Time.deltaTime;
-            if (throwdelay >= .6f)
+            if (throwdelay >= .55f)
             {
                 throwdelay = 0;
                 anim.Play();
@@ -56,7 +56,7 @@ public class skeletonthrow : MonoBehaviour {
             
             rb = instantiatedball.GetComponent<Rigidbody>();
             instantiatedball.SetActive(true);
-            rb.AddForce(new Vector3(-3000,315,0));
+            rb.AddForce(new Vector3(-3000+Random.Range(-400,100),315+Random.Range(-30,0),0));
             
         }
 

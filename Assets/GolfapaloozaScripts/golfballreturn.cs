@@ -3,41 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class golfballreturn : MonoBehaviour {
-
+    public GameObject golfball;
+    public GameObject storage;
     public float depth = -.85f;
     public int timeTillMove = 150;
-    private Vector3 initialpos = new Vector3();
-    private Vector3 storage = new Vector3();
-    private Vector3 lowerbound = new Vector3(-.25f, -.25f, -.25f);
-    private Vector3 upperbound = new Vector3(.25f, .25f, .25f);
-    private int timecounter = 0;
-    private int hitCounter = 0;
-    private int minhits;
-    private Rigidbody rb;
+     Vector3 initialpos = new Vector3();
+    //private Vector3 storage = new Vector3();
+    Vector3 lowerbound = new Vector3(-.25f, -.25f, -.25f);
+     Vector3 upperbound = new Vector3(.25f, .25f, .25f);
+     int timecounter = 0;
+     int hitCounter = 0;
+     int minhits;
+     Rigidbody rb;
 
 
     // Use this for initialization
     void Awake () {
-        storage = gameObject.transform.position;
-        initialpos = gameObject.transform.position;
-        rb = gameObject.GetComponent<Rigidbody>();
+        storage.transform.position = golfball.transform.position;
+        initialpos = golfball.transform.position;
+        rb = golfball.GetComponent<Rigidbody>();
 
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
-        if(gameObject.transform.position.y <= storage.y + depth)
+        if(golfball.transform.position.y <= storage.transform.position.y + depth)
         {
+            
+            golfball.transform.position = storage.transform.position;
             rb.velocity = Vector3.zero;
-            gameObject.transform.position = storage;
         }
 
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "inHole")
+        if (rb.velocity.x > lowerbound.x && rb.velocity.y > lowerbound.y &&
+    rb.velocity.z > lowerbound.z && rb.velocity.x < upperbound.x &&
+    rb.velocity.y < upperbound.y && rb.velocity.z < upperbound.z && collision.gameObject.CompareTag("replaceHand"))
+        {
+            storage.transform.position = golfball.transform.position;
+        }
+            if (collision.gameObject.tag == "inHole")
         {
             timecounter = 0;
         }
@@ -51,16 +59,7 @@ public class golfballreturn : MonoBehaviour {
 
     void OnCollisionStay(Collision theCollision)
     {
-        if (rb.velocity.x > lowerbound.x && rb.velocity.y > lowerbound.y &&
-    rb.velocity.z > lowerbound.z && rb.velocity.x < upperbound.x &&
-    rb.velocity.y < upperbound.y && rb.velocity.z < upperbound.z)
-        {
-            if (theCollision.gameObject.tag == "golfballcheck")
-            {
-                storage = gameObject.transform.position;
-                
-            }
-        }
+       
 
         if (theCollision.gameObject.tag == "inHole")
         {
@@ -73,8 +72,9 @@ public class golfballreturn : MonoBehaviour {
                     minhits = hitCounter;
                 }
                 hitCounter = 0;
+                
+                golfball.transform.position = initialpos;
                 rb.velocity = Vector3.zero;
-                gameObject.transform.position = initialpos;
             }
         }
 
