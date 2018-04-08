@@ -99,6 +99,7 @@ public class basketballcontrollerscript : MonoBehaviour
     {
         if (collidingObject)
         {
+            
             objectInHand = collidingObject;
             collidingObject = null;
             throwableinhand = true;
@@ -125,6 +126,7 @@ public class basketballcontrollerscript : MonoBehaviour
         // 1
         if (GetComponent<FixedJoint>())
         {
+           
             // 2
             GetComponent<FixedJoint>().connectedBody = null;
             Destroy(GetComponent<FixedJoint>());
@@ -136,10 +138,29 @@ public class basketballcontrollerscript : MonoBehaviour
         // 4
         objectInHand = null;
     }
-   
 
 
 
+    private void LateUpdate()
+    {
+        /**if (Controller.GetHairTriggerDown() && throwableinhand == true)
+        {
+            throwableinhand = false;
+            ReleaseThrowableObject();
+
+        }**/
+
+        // 2
+
+
+        if (Controller.GetHairTriggerUp() && throwableinhand == true)
+        {
+
+            ReleaseThrowableObject();
+            throwableinhand = false;
+
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -175,23 +196,7 @@ public class basketballcontrollerscript : MonoBehaviour
             
             GrabThrowableObject();
         }
-        else if(Controller.GetHairTriggerDown() && throwableinhand == true)
-        {
-            throwableinhand = false;
-            ReleaseThrowableObject();
-            
-        }
-
-        // 2
         
-       
-        if (Controller.GetHairTriggerUp() && throwableinhand == true)
-        {
-            
-                ReleaseThrowableObject();
-                throwableinhand = false;
-            
-        }
 
     
     }

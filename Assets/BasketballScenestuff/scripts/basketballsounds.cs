@@ -8,11 +8,11 @@ public class basketballsounds : MonoBehaviour
     public GameObject basketballmodel;
     public GameObject scoreupdater;
     public GameObject backboard;
-   
+    float volumemodify;
     public AudioClip hitground1;
     public AudioClip scored1;
     public AudioClip hitbackboard1;
-    
+    AudioSource audio;
 
     // Use this for initialization
    
@@ -31,7 +31,24 @@ public class basketballsounds : MonoBehaviour
         }
         else
         {
-            AudioSource.PlayClipAtPoint(hitground1, gameObject.transform.position);
+            if (gameObject.GetComponent<Rigidbody>().velocity.x < .7f && gameObject.GetComponent<Rigidbody>().velocity.x > -.7f
+                && gameObject.GetComponent<Rigidbody>().velocity.z < .7f && gameObject.GetComponent<Rigidbody>().velocity.z > -.7f)
+            {
+                return;
+            }
+                if ( gameObject.GetComponent<Rigidbody>().velocity.x<1 && gameObject.GetComponent<Rigidbody>().velocity.x > -1 
+                && gameObject.GetComponent<Rigidbody>().velocity.z < 1 && gameObject.GetComponent<Rigidbody>().velocity.z > -1)
+            {
+                print("slowenough");
+                audio.volume =.1f;
+                AudioSource.PlayClipAtPoint(hitground1, gameObject.transform.position, audio.volume);
+            }
+            else
+            {
+                print("normal");
+                AudioSource.PlayClipAtPoint(hitground1, gameObject.transform.position);
+            }
+           
         }
     }
 

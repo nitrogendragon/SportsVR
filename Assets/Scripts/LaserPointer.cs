@@ -17,6 +17,7 @@ public class LaserPointer : MonoBehaviour {
     public Vector3 teleportReticleOffset;
     // 7
     public LayerMask teleportMask;
+    public LayerMask dontTeleportMask;
     // 8
     private bool shouldTeleport;
 
@@ -72,7 +73,11 @@ public class LaserPointer : MonoBehaviour {
             RaycastHit hit;
 
             // 2
-            if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, teleportMask))
+            if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, dontTeleportMask))
+            {
+                return;
+            }
+                else if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, teleportMask))
             {
                 hitPoint = hit.point;
                 ShowLaser(hit);
