@@ -6,21 +6,25 @@ Link to Video Demonstration:
 
 
 Resources Used:
-
-Sound Effects
 “Bounce”        -       https://www.freesoundeffects.com/free-sounds/basketball-10100/
+
 “Ball Collision”-       https://www.freesoundeffects.com/free-sounds/sports-10098/
+
 “Baseball Hit” 	-	https://freesound.org/people/CTCollab/sounds/223608/
+
 “Sad Sound”	-	https://freesound.org/people/josepharaoh99/sounds/364929/
+
 “Cool Sound”	-	https://freesound.org/people/limetoe/sounds/249524/
+
 “Arcade Music” 	-	https://freesound.org/people/tyops/sounds/423805/
 
-3D Models
 “Skeleton” -    https://www.turbosquid.com/3d-models/body-skeleton-blend-free/659093
+
 “Stadium”  -    https://3dwarehouse.sketchup.com/model/730849ec37ca1d059040a7c72f5a18f/Surf-Park
+
 “Rocks”    -    https://assetstore.unity.com/packages/3d/environments/landscapes/free-rocks-19288
 
-Other Assets 
 “Skybox”  -     https://assetstore.unity.com/packages/2d/textures-materials/sky/skybox-volume-2-nebula-3392
+
 “Standard”-     https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-32351
 
