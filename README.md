@@ -6,6 +6,8 @@ and they all must be in the same folder
 To build and read socure code for the project, download everything into one folder then open in unity(version 2017.4.01f or greater)
 the build using unitys build in code, this will have all assets and all scripts.
 
+to get all the assets, download them from the following loacations, and install into game directory all assests used outside unity built in are listed below.
+
 
 Link to Video Demonstration: vieo downloadable from github in code repository
 
