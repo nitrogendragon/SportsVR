@@ -3,41 +3,43 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+/**handles all thigns related to the controller in the baseball game including menus and holding the baseball bat**/
 public class baseballcontroller : MonoBehaviour
 {
-    bool nextcheck;
-    public GameObject scoreboard;
-    baseballscoreboard bsb;
-    bool batinhand = false;
-    public Transform headpos;
-    public GameObject batholder;
-    float timetilmenushows;
-    float timetilgamestart;
-    bool gamestarted = false;
-    bool startselected = false;
-    bool exitselected = false;
-    bool startmenutimer;
-    public GameObject baseballbat;
-    public GameObject begingame;
-    public GameObject exit;
-    public GameObject skeleton;
-    skeletonthrow st;
-    public GameObject startbox;
-    bool inhand = false;
-    bool throwableinhand = false;
-    private SteamVR_TrackedObject trackedObj;
+    bool nextcheck;//bool check
+    public GameObject scoreboard;//scoreboard gameobject
+    baseballscoreboard bsb;//reference to scorebaord script
+    bool batinhand = false;//checks if abat is in hand
+    public Transform headpos;//position of the head
+    public GameObject batholder;// object reference that holds and orients the bat
+    float timetilmenushows;//delay for showing menu when game ends
+    float timetilgamestart;//delay for starting game after you tell it to play
+    bool gamestarted = false;//has the game started?
+    bool startselected = false;// start button is being interacted with or not
+    bool exitselected = false;// exit button is being interacted with or not
+    bool startmenutimer;// bool for determining whether to start delay for menu appearance/disappearance
+    public GameObject baseballbat;//reference to bat
+    public GameObject begingame;//reference to button for starting game
+    public GameObject exit;//reference to button for exiting game
+    public GameObject skeleton;//reference to our lovely skeleton pitcher credit of turbosquid
+    skeletonthrow st;//reference to skeleton throw script
+    public GameObject startbox;// no longer used
+    bool inhand = false;// another check for if object is in hand
+    bool throwableinhand = false;// checks if specific type of object is in hand
+    private SteamVR_TrackedObject trackedObj;//reference to the controller
     // 1
-    private GameObject collidingObject;
+    private GameObject collidingObject;// reference to object that controller is colliding with
     // 2
-    private GameObject objectInHand;
+    private GameObject objectInHand;//reference to objects in hand
 
-    private SteamVR_Controller.Device Controller
+    private SteamVR_Controller.Device Controller//controller reference of another kind
     {
-        get { return SteamVR_Controller.Input((int)trackedObj.index); }
+        get { return SteamVR_Controller.Input((int)trackedObj.index); }// grabs specific controller
     }
 
     void Awake()
     {
+        /** grabs script components attached to objects for use to reference**/
         st = skeleton.GetComponent<skeletonthrow>();
         trackedObj = GetComponent<SteamVR_TrackedObject>();
         bsb = scoreboard.GetComponent<baseballscoreboard>();
@@ -49,15 +51,16 @@ public class baseballcontroller : MonoBehaviour
 
 
 
-    // 1
+    // checks to see what trigger colliders are being entered
     public void OnTriggerEnter(Collider other)
     {
-
+        //changes color of button on trigger enter and tells the bool that we are triggering the trigger of the start game button
         if (other.gameObject == begingame)
         {
             begingame.GetComponent<Renderer>().material.color = Color.blue;
             startselected = true;
         }
+        //changes color of button on trigger enter and tells the bool that we are triggering the trigger of the exit game button
         if (other.gameObject == exit)
         {
             exit.GetComponent<Renderer>().material.color = Color.cyan;
@@ -70,9 +73,10 @@ public class baseballcontroller : MonoBehaviour
     // 2
 
 
-    // 3
+    // checks if you exit collison with a trigger object
     public void OnTriggerExit(Collider other)
     {
+        // changes bool back to false from trigger enter and returns color of button to previous state
         if (other.gameObject == begingame)
         {
             begingame.GetComponent<Renderer>().material.color = Color.white;
@@ -80,11 +84,13 @@ public class baseballcontroller : MonoBehaviour
 
 
         }
+        // changes bool back to false from trigger enter and returns color of button to previous state
         if (other.gameObject == exit)
         {
             exit.GetComponent<Renderer>().material.color = Color.white;
             exitselected = false;
         }
+        //potentially unnecessary code
         if (!collidingObject)
         {
             return;
@@ -93,10 +99,11 @@ public class baseballcontroller : MonoBehaviour
 
     }
 
-
+    //function for grabbing locked object not meant to be thrown
     private void GrabLockedObject()
     {
-
+        /**sets bat to be active in the game and sets its position and rotation to be the same as the batholders and makes the object in hand be the baseball bat,
+         * additionally changes bool for inhand so that it knows there is something being held and then lastly creates a joint to connnect them and undoes the batinhand bool**/
         baseballbat.SetActive(true);
             baseballbat.transform.position = batholder.transform.position;
             baseballbat.transform.rotation = batholder.transform.rotation;
@@ -111,7 +118,7 @@ public class baseballcontroller : MonoBehaviour
 
 
 
-    // 3
+    // the actual function for adding the joint and sets up the breakforce so it doesn't just fly out of your hand when it collides with the ball
     private FixedJoint AddFixedJoint()
     {
         FixedJoint fx = gameObject.AddComponent<FixedJoint>();
@@ -125,78 +132,87 @@ public class baseballcontroller : MonoBehaviour
     //starts the baseball game specifically the pitching animation
     void startgame()
     {
+        //count check for how many throws have been thrown
         if (st.count == 0)
         {
-            st.throwagain = true;
+            st.throwagain = true;//tell the pitcher it should throw again
         }
     }
+    //function for exiting game
     private void exitgame()
     {
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("Main Menu");//loads the main menu scene
     }
-    // Update is called once per frame
+    //lots of checks
     void FixedUpdate()
     {
-
+        //if count equals limit
         if (st.count == 10)
         {
-            nextcheck = true;
+            nextcheck = true;//proceed
         }
-            if (bsb.d11.text != "0" && nextcheck==true)
+            if (bsb.d11.text != "0" && nextcheck==true)//makes sure the last ball has hit the ground
             {
             nextcheck = false;
-                startmenutimer = true;
+                startmenutimer = true;//starts timer for displaying the menu
             }
         
         if (startmenutimer == true)
         {
-            timetilmenushows += Time.deltaTime;
+            timetilmenushows += Time.deltaTime;//starts delay timer
         }
         if (timetilmenushows >= 3)
         {
            
-            timetilmenushows = 0;
-            begingame.SetActive(true);
-            exit.SetActive(true);
-            startmenutimer = false;
-            baseballbat.SetActive(false);
+            timetilmenushows = 0;//reset timer
+            begingame.SetActive(true);// button reappears
+            exit.SetActive(true);//button reappears
+            startmenutimer = false;//dont run last if statement
+            baseballbat.SetActive(false);//turn off bat
         }
 
         
-        // 1
+        // starts game on trigger press
         if (Controller.GetHairTriggerDown() && startselected == true)
         {
-            begingame.GetComponent<Renderer>().material.color = Color.white;
-            begingame.SetActive(false);
-            exit.SetActive(false);
-            gamestarted = true;
-            startselected = false;
-            batinhand = true;
+            begingame.GetComponent<Renderer>().material.color = Color.white;//reset button color
+            begingame.SetActive(false);// hide button
+            exit.SetActive(false);//hide button
+            gamestarted = true;//game has started
+            startselected = false;//button not being interacted with anymore, safety code check
+            batinhand = true;// you are now holding a bat or should be soon 
         }
+        //if game has started..
         if (gamestarted == true)
         {
-            baseballbat.SetActive(true);
-            timetilgamestart += Time.deltaTime;
+            baseballbat.SetActive(true);//turn bat on
+            timetilgamestart += Time.deltaTime;//start timer for delaying initial pitch
         }
+        //timer reached 3 seconds
         if (timetilgamestart >= 3)
         {
-            gamestarted = false;
-            startgame();
-            timetilgamestart = 0;
+            gamestarted = false;//set false now so game can be restarted again later and functions don't run accidentally that aren't wanted
+            startgame();//run game starting function
+            timetilgamestart = 0;//reset timer
         }
-
+        //if button down and triggering exit button..
         else if (Controller.GetHairTriggerDown() && exitselected == true)
         {
-            exitselected = false;
-            exit.GetComponent<Renderer>().material.color = Color.white;
-            exitgame();
+            exitselected = false;//deselect
+            exit.GetComponent<Renderer>().material.color = Color.white;//reset color
+            exitgame();//exit game 
 
 
         }
-
+        //check  if holding bat, should only happen if start button has been pressed though it can bug sometimes
         if (batinhand == true)
         {
-            GrabLockedObject();
+            GrabLockedObject();//run function to be put into hand
+        }
+        //safety check in case something wonky happens
+        if (Controller.GetHairTriggerDown() && batinhand == false)
+        {
+            GrabLockedObject();//puts bat in hand again 
         }
 
 

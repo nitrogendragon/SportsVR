@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/** pretty sure this is just a test script. see golf controller or baseball controller for basically the same thing**/
 public class ContorllerGrabObject : MonoBehaviour {
     
     bool inhand = false;

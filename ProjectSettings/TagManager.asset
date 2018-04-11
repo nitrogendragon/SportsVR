@@ -9,6 +9,10 @@ TagManager:
   - replaceHand
   - startbasketball
   - scoreupdater
+  - inHole
+  - golfballcheck
+  - to be disabled putter
+  - water
   layers:
   - Default
   - TransparentFX
