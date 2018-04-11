@@ -31,3 +31,10 @@ Resources Used:
 
 “Standard”-     https://assetstore.unity.com/packages/essentials/asset-packs/standard-assets-32351
 
+"Special effects"- https://assetstore.unity.com/packages/vfx/particles/3d-games-effects-pack-free-42285
+
+"Water sound effects"- https://assetstore.unity.com/packages/audio/sound-fx/foley/water-splash-pack-14039
+
+//must be pulled before using for anything other than educational pourposes
+"zelda chest sound"- https://www.youtube.com/watch?v=SWBDQqyxujE
+"golf background sound" https://www.youtube.com/watch?v=icgGyR3iusU
