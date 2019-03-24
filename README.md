@@ -9,7 +9,7 @@ the build using unitys build in code, this will have all assets and all scripts.
 to get all the assets, download them from the following loacations, and install into game directory all assests used outside unity built in are listed below.
 
 
-Link to Video Demonstration: video downloadable from github in code repository
+Link to Video Demonstration: coming soon?
 
 Resources Used:
 
